@@ -1,13 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
-using ProductApi.Models;
+﻿using Infrastructure.Models;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace ProductApi.Controllers
+namespace Infrastructure.DataContext
 {
-    public class DataContext: DbContext
+    public class DataContext : DbContext
     {
-        public DataContext(DbContextOptions<DataContext> options) :
-            base(options)
-        { }
+
+        public DataContext() { }
 
         public DbSet<Product> Products { get; set; }
         public DbSet<Provider> Providers { get; set; }
@@ -17,6 +19,11 @@ namespace ProductApi.Controllers
         {
             modelBuilder.Entity<Provider>().HasMany<Company>(p => p.Companies).WithOne(c => c.Provider).OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<Company>().HasMany<Product>(p => p.Products).WithOne(p => p.Company).OnDelete(DeleteBehavior.Cascade);
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlite("Data Source=ProductApi.db");
         }
 
     }

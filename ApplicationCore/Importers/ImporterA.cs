@@ -1,10 +1,9 @@
-﻿using ProductApi.Models;
+﻿using Infrastructure.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
-namespace ProductApi.Importers
+namespace ApplicationCore.Importers
 {
     public class ImporterA : IImporter
     {
@@ -15,7 +14,7 @@ namespace ProductApi.Importers
             _json = json;
         }
 
-        public Provider Import()
+        public IList<Product> Import()
         {
             throw new NotImplementedException();
         }

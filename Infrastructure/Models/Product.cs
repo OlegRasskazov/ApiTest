@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
+using System.Text;
 
-namespace ProductApi.Models
+namespace Infrastructure.Models
 {
-    public class Product: EntityBase
+    public class Product : EntityBase
     {
         public string Name { get; set; }
         public DateTime LoadTime { get; set; }

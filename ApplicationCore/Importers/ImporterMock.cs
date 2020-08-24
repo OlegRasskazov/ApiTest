@@ -1,14 +1,16 @@
-﻿using ProductApi.Models;
+﻿using Infrastructure.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
-namespace ProductApi.Importers
+namespace ApplicationCore.Importers
 {
     public class ImporterMock : IImporter
     {
-        public Provider Import()
+        public IList<Product> Import()
         {
-            return new Provider()
+            var provider = new Provider()
             {
                 Name = "MockProvider",
                 Companies = new List<Company>() {
@@ -46,6 +48,8 @@ namespace ProductApi.Importers
                     }
                 }
             };
+
+            return provider.Companies.SelectMany(c => c.Products).ToList();
         }
     }
 }

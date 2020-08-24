@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ApplicationCore.Importers;
+using Infrastructure.Models;
+using Infrastructure.Dto;
+using Infrastructure.Repositories;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.VisualBasic;
-using ProductApi.Importers;
 using ProductApi.Models;
 using System;
 using System.Collections.Generic;
@@ -15,34 +17,27 @@ namespace ProductApi.Controllers
     [ApiController]
     public class ProductsController : Controller
     {
-        private DataContext context;
+        private IProductRepository _productRepository;
 
-        public ProductsController(DataContext ctx)
+        public ProductsController(IProductRepository productRepository)
         {
-
-            context = ctx;
+            _productRepository = productRepository;
         }
         //задать тип принимаемого значения
-        [HttpGet("{path}")]
-        public Product GetProduct(string path)
+        [HttpGet("{id}")]
+        public Product GetProduct(int id)
         {
-            if (int.TryParse(path, out int id))
-            {
-                return context.Products
-                    .FirstOrDefault(p => p.Id == id);
-            }
-            else {
-                return context.Products.FirstOrDefault(p => path.Equals(p.Name));
-            };
+            return _productRepository.GetProduct(id);
         }
 
         [HttpGet]
         public Product[] GetProducts()
         {
-            return context.Products
-                .Include(p => p.Company)
-                .ThenInclude(c => c.Provider)
-                .ToArray();
+            _productRepository.GetProducts(new Filter() { 
+            From = DateTime.Now.AddMonths(-11),
+            To = DateTime.Now,
+            });
+            return new Product[1];
         }
 
         [HttpPost]
@@ -51,8 +46,7 @@ namespace ProductApi.Controllers
             IImporter importer = new ImporterMock();
             var result = importer.Import();
 
-            context.Add(result);
-            context.SaveChanges();
+            _productRepository.SaveProducts(result);
 
             return Ok();
         }

@@ -14,6 +14,8 @@ using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Logging;
 using ProductApi.Controllers;
 using Microsoft.OpenApi.Models;
+using Infrastructure.Repositories;
+using Infrastructure.Extensions;
 
 namespace ProductApi
 {
@@ -29,13 +31,15 @@ namespace ProductApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DataContext>(options => options.UseSqlite("Data Source=ProductApi.db"));
+            services.AddDbContext<Infrastructure.DataContext.DataContext>();
+
             services.AddControllers()
                 .AddNewtonsoftJson(options =>
                 {
                     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
                     options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
                 });
+            services.AddRepositories();
 
             services.AddSwaggerGen(options =>
             {

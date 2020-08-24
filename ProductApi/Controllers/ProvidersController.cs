@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Infrastructure.Repositories;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProductApi.Extensions;
 using ProductApi.Models;
@@ -15,35 +16,32 @@ namespace ProductApi.Controllers
     [ApiController]
     public class ProvidersController : Controller
     {
-        private DataContext context;
-        public ProvidersController(DataContext ctx)
+        private IProviderRepository _providerRepository;
+        public ProvidersController(IProviderRepository providerRepository)
         {
-            context = ctx;
+            _providerRepository = providerRepository;
         }
         [HttpGet("{path}")]
         public IActionResult GetProvider(string path, [FromQuery] GetProviderQueryObject request)
         {
-            var query = context.Products
-                .Include(p => p.Company)
-                .ThenInclude(c => c.Provider);
-
-            //query.AsEnumerable().Where(p => p.LoadTime <= request.To);
-            //query.Where(p => p.LoadTime >= request.From);
+            //var query = context.Products
+            //    .Include(p => p.Company)
+            //    .ThenInclude(c => c.Provider).AsQueryable();
 
             //if (int.TryParse(path, out int id))
-            //    query.Where(p => p.Company.Provider.Id == id);
+            //    query = query.Where(p => p.Company.Provider.Id == id);
             //else
-            //    query.Where(p => p.Company.Provider.Name.ToLower() == path.ToLower());
+            //    query = query.Where(p => p.Company.Provider.Name.ToLower() == path.ToLower());
 
             //if (request.From.HasValue)
-            //    query.Where(p => p.LoadTime >= request.From);
+            //    query = query.Where(p => p.LoadTime >= request.From);
             //if (request.To.HasValue)
-            //    query.Where(p => p.LoadTime <= request.To);
+            //    query = query.Where(p => p.LoadTime <= request.To);
 
             return Ok(new
             {
-                products = query.ToList().Where(p => p.LoadTime >= request.From && p.LoadTime <= request.To)
-            });
+                //products = query.ToArray()
+            }); ;
         }
     }
 }

@@ -1,13 +1,12 @@
-﻿using ProductApi.Models;
+﻿using Infrastructure.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 using System.Xml.Linq;
 
-namespace ProductApi.Importers
+namespace ApplicationCore.Importers
 {
-    public class ImporterB: IImporter
+    public class ImporterB : IImporter
     {
         private XDocument _xDocument;
 
@@ -15,7 +14,7 @@ namespace ProductApi.Importers
         {
             _xDocument = xDocument;
         }
-        public Provider Import()
+        public IList<Product> Import()
         {
             throw new NotImplementedException();
         }
