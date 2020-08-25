@@ -11,5 +11,9 @@ namespace Infrastructure.Dto
         public DateTime? To { get; set; }
 
         public string Name { get; set; }
+
+        public string CompanyId { get; set; }
+
+        public int? ProviderId { get; set; }
     }
 }

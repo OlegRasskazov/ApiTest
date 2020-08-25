@@ -1,4 +1,5 @@
-﻿using Infrastructure.Models;
+﻿using Infrastructure.Db;
+using Infrastructure.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,8 +8,8 @@ namespace Infrastructure.Repositories
 {
     public class ProviderRepository : IProviderRepository
     {
-        private DataContext.DataContext _context;
-        public ProviderRepository(DataContext.DataContext context)
+        private DataContext _context;
+        public ProviderRepository(DataContext context)
         {
             _context = context;
         }

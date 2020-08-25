@@ -14,7 +14,7 @@ namespace ApplicationCore.Importers
             _json = json;
         }
 
-        public IList<Product> Import()
+        public Provider Import()
         {
             throw new NotImplementedException();
         }

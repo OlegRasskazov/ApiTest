@@ -7,6 +7,6 @@ namespace ApplicationCore.Importers
 {
     public interface IImporter
     {
-        IList<Product> Import();
+        Provider Import();
     }
 }

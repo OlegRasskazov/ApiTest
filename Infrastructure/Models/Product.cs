@@ -1,9 +1,12 @@
 ﻿using System;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Text;
+using Infrastructure.Dto;
 
 namespace Infrastructure.Models
 {
+    [JsonConverter(typeof(ProductConverter))]
     public class Product : EntityBase
     {
         public string Name { get; set; }

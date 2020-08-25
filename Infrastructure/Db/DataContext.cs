@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Infrastructure.DataContext
+namespace Infrastructure.Db
 {
     public class DataContext : DbContext
     {

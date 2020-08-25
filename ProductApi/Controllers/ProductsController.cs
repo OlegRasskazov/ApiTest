@@ -18,35 +18,76 @@ namespace ProductApi.Controllers
     public class ProductsController : Controller
     {
         private IProductRepository _productRepository;
+        private IProviderRepository _providerRepository;
 
-        public ProductsController(IProductRepository productRepository)
+        public ProductsController(IProductRepository productRepository, IProviderRepository providerRepository)
         {
             _productRepository = productRepository;
+            _providerRepository = providerRepository;
         }
         //задать тип принимаемого значения
-        [HttpGet("{id}")]
-        public Product GetProduct(int id)
+        [HttpGet("{id:int}")]
+        public IActionResult GetProduct(int id)
         {
-            return _productRepository.GetProduct(id);
+            try
+            {
+                var result = _productRepository.GetProduct(id);
+                return Ok(result);
+            }
+            catch(Exception ex)
+            {
+                //TODO: добавть логирование
+                return BadRequest();
+            }
         }
 
-        [HttpGet]
-        public Product[] GetProducts()
+        [HttpGet("{name:alpha}")]
+        public IActionResult GetProduct(string name)
         {
-            _productRepository.GetProducts(new Filter() { 
-            From = DateTime.Now.AddMonths(-11),
-            To = DateTime.Now,
+            try
+            {
+                var result = _productRepository.GetProduct(1);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                //TODO: добавть логирование
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("{providerId:int}&{from:datetime}&{to:datetime}")]
+        public Product[] GetProductsByProvider(int? providerId, DateTime? from, DateTime? to)
+        {
+
+            return _productRepository.GetProducts(new Filter()
+            {
+                From = from,
+                To = to,
+                ProviderId = providerId
             });
-            return new Product[1];
+        }
+
+        [HttpGet("{companyId:alpha}&{from:datetime}&{to:datetime}")]
+        public Product[] GetProductsByCompany(string companyId, DateTime? from, DateTime? to)
+        {
+            return _productRepository.GetProducts(new Filter()
+            {
+                From = from,
+                To = to,
+                CompanyId = companyId
+            });
         }
 
         [HttpPost]
-        public IActionResult AddProduct(string product)
+        [Consumes("application/json", "application/xml")]
+        [Produces("application/json", "application/xml")]
+        public IActionResult AddProduct([FromBody] Product product)
         {
             IImporter importer = new ImporterMock();
             var result = importer.Import();
 
-            _productRepository.SaveProducts(result);
+            _providerRepository.AddProvider(result);
 
             return Ok();
         }

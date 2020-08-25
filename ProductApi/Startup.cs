@@ -1,21 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Infrastructure.Db;
+using Infrastructure.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.Logging;
-using ProductApi.Controllers;
 using Microsoft.OpenApi.Models;
-using Infrastructure.Repositories;
-using Infrastructure.Extensions;
 
 namespace ProductApi
 {
@@ -31,14 +21,14 @@ namespace ProductApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<Infrastructure.DataContext.DataContext>();
+            services.AddDbContext<DataContext>();
 
             services.AddControllers()
                 .AddNewtonsoftJson(options =>
                 {
                     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
                     options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-                });
+                }).AddXmlSerializerFormatters();
             services.AddRepositories();
 
             services.AddSwaggerGen(options =>

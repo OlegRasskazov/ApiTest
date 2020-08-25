@@ -1,22 +1,21 @@
-﻿using Infrastructure.Models;
-using Infrastructure.DataContext;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Infrastructure.Db;
 using Infrastructure.Dto;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using Infrastructure.Extensions;
+using Infrastructure.Models;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Infrastructure.Repositories
 {
     public class ProductRepository : IProductRepository
     {
-        private DataContext.DataContext _context;
-        public ProductRepository(DataContext.DataContext ctx)
+        private DataContext _context;
+
+        public ProductRepository(DataContext ctx)
         {
             _context = ctx;
         }
+
         public Product GetProduct(int id)
         {
             return _context.Products.Find(id);
@@ -24,14 +23,14 @@ namespace Infrastructure.Repositories
 
         public Product[] GetProducts(Filter filter)
         {
-            var x  = _context.Products.Include(p => p.Company).Where(p => p.LoadTime > filter.From && p.LoadTime < filter.To).In  ToSql();
-            throw new Exception(x);
-            return new Product[1];
+            var query = _context.Products.ApplyFilter(filter);
+
+            return query.ToArray();
         }
 
         public void SaveProducts(IList<Product> products)
         {
-
+            _context.Products.AddRange(products);
             _context.SaveChanges();
         }
     }

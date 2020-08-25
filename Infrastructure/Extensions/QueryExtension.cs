@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Query;
+﻿using Infrastructure.Models;
+using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,22 @@ namespace Infrastructure.Extensions
 
             string sql = command.CommandText;
             return sql;
+        }
+
+        public static IQueryable<Product> ApplyFilter(this IQueryable<Product> query, Dto.Filter filter)
+        {
+            if (!string.IsNullOrEmpty(filter.CompanyId))
+                query = query.Where(p => p.Company.Guid == filter.CompanyId);
+            if (filter.ProviderId.HasValue)
+                query = query.Where(p => p.Company.Provider.Id == filter.ProviderId);
+            if (filter.From.HasValue)
+                query = query.Where(p => p.LoadTime >= filter.From);
+            if (filter.To.HasValue)
+                query = query.Where(p => p.LoadTime <= filter.To);
+            if (!string.IsNullOrEmpty(filter.Name))
+                query = query.Where(p => p.Name == filter.Name);
+
+            return query;
         }
 
         private static object Private(this object obj, string privateField) =>

@@ -8,7 +8,7 @@ namespace ApplicationCore.Importers
 {
     public class ImporterMock : IImporter
     {
-        public IList<Product> Import()
+        public Provider Import()
         {
             var provider = new Provider()
             {
@@ -49,7 +49,7 @@ namespace ApplicationCore.Importers
                 }
             };
 
-            return provider.Companies.SelectMany(c => c.Products).ToList();
+            return provider;
         }
     }
 }
