@@ -1,11 +1,12 @@
 using Infrastructure.Db;
-using Infrastructure.Extensions;
+using Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using ApplicationCore.Formatters;
 
 namespace ProductApi
 {
@@ -23,12 +24,18 @@ namespace ProductApi
         {
             services.AddDbContext<DataContext>();
 
-            services.AddControllers()
-                .AddNewtonsoftJson(options =>
-                {
-                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
-                    options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-                }).AddXmlSerializerFormatters();
+            services.AddControllers(options =>
+            {
+                options.InputFormatters.Insert(0, new ProductInputJsonFormatter());
+                options.InputFormatters.Insert(1, new ProductInputXmlFormatter());
+            });
+
+
+                //.AddNewtonsoftJson(options =>
+                //{
+                //    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                //    options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+                //}).AddXmlSerializerFormatters();
             services.AddRepositories();
 
             services.AddSwaggerGen(options =>

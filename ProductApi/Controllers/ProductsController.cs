@@ -25,6 +25,7 @@ namespace ProductApi.Controllers
             _productRepository = productRepository;
             _providerRepository = providerRepository;
         }
+
         //задать тип принимаемого значения
         [HttpGet("{id:int}")]
         public IActionResult GetProduct(int id)
@@ -34,7 +35,7 @@ namespace ProductApi.Controllers
                 var result = _productRepository.GetProduct(id);
                 return Ok(result);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 //TODO: добавть логирование
                 return BadRequest();
@@ -81,15 +82,14 @@ namespace ProductApi.Controllers
 
         [HttpPost]
         [Consumes("application/json", "application/xml")]
-        [Produces("application/json", "application/xml")]
-        public IActionResult AddProduct([FromBody] Product product)
+        public IActionResult AddProductsByProvider([FromBody] Provider provider)
         {
-            IImporter importer = new ImporterMock();
-            var result = importer.Import();
+            //IImporter importer = new ImporterMock();
+            //var result = importer.Import();
 
-            _providerRepository.AddProvider(result);
+            _providerRepository.SaveOrUpdate(provider);
 
-            return Ok();
+            return Ok(provider.Id);
         }
     }
 }

@@ -6,7 +6,7 @@ using Infrastructure.Dto;
 
 namespace Infrastructure.Models
 {
-    [JsonConverter(typeof(ProductConverter))]
+    //[JsonConverter(typeof(ProductConverter))]
     public class Product : EntityBase
     {
         public string Name { get; set; }

@@ -1,9 +1,9 @@
 ﻿using Infrastructure.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Infrastructure.Extensions
+namespace Infrastructure
 {
-    public static class ServiceCollectionExtension
+    public static class ServiceCollectionInstaller
     {
         public static void AddRepositories(this IServiceCollection services)
         {

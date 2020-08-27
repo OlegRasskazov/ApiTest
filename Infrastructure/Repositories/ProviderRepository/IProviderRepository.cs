@@ -9,8 +9,10 @@ namespace Infrastructure.Repositories
     {
         Provider GetProvider(int id);
 
+        Provider GetProviderByName(string name);
+
         Provider[] GetProviders();
 
-        void AddProvider(Provider provider);
+        void SaveOrUpdate(Provider provider);
     }
 }
