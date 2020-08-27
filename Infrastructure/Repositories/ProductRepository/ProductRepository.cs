@@ -1,5 +1,5 @@
 ﻿using Infrastructure.Db;
-using Infrastructure.Dto;
+using Infrastructure.Dto.Filters;
 using Infrastructure.Extensions;
 using Infrastructure.Models;
 using System.Collections.Generic;

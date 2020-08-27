@@ -32,6 +32,7 @@ namespace ApplicationCore.Formatters
             {
                 var json = await reader.ReadToEndAsync();
                 var providerMessageModel = JsonConvert.DeserializeObject<ProviderMessageModel>(json);
+                // можно вынести в настройки
                 providerMessageModel.Name = "ProviderA";
                 return await InputFormatterResult.SuccessAsync(providerMessageModel.GetProviderEntity());
             }

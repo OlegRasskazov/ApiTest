@@ -1,12 +1,13 @@
-using Infrastructure.Db;
+using ApplicationCore;
+using ApplicationCore.Formatters;
 using Infrastructure;
+using Infrastructure.Db;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using ApplicationCore.Formatters;
 
 namespace ProductApi
 {
@@ -37,6 +38,8 @@ namespace ProductApi
                 //    options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
                 //}).AddXmlSerializerFormatters();
             services.AddRepositories();
+
+            services.AddAppServices();
 
             services.AddSwaggerGen(options =>
             {

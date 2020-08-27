@@ -1,15 +1,10 @@
-﻿using ApplicationCore.Importers;
+﻿using ApplicationCore.AppServices;
+using Infrastructure.Dto.Filters;
 using Infrastructure.Models;
-using Infrastructure.Dto;
 using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using ProductApi.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ProductApi.Controllers
 {
@@ -19,11 +14,16 @@ namespace ProductApi.Controllers
     {
         private IProductRepository _productRepository;
         private IProviderRepository _providerRepository;
+        private IImportService _importService;
 
-        public ProductsController(IProductRepository productRepository, IProviderRepository providerRepository)
+        public ProductsController(
+            IProductRepository productRepository,
+            IProviderRepository providerRepository,
+            IImportService importService)
         {
             _productRepository = productRepository;
             _providerRepository = providerRepository;
+            _importService = importService;
         }
 
         //задать тип принимаемого значения
@@ -58,37 +58,33 @@ namespace ProductApi.Controllers
         }
 
         [HttpGet("{providerId:int}&{from:datetime}&{to:datetime}")]
-        public Product[] GetProductsByProvider(int? providerId, DateTime? from, DateTime? to)
-        {
-
-            return _productRepository.GetProducts(new Filter()
-            {
-                From = from,
-                To = to,
-                ProviderId = providerId
-            });
-        }
-
-        [HttpGet("{companyId:alpha}&{from:datetime}&{to:datetime}")]
-        public Product[] GetProductsByCompany(string companyId, DateTime? from, DateTime? to)
+        public Product[] GetProductsByProvider(int providerId, DateTime? from, DateTime? to)
         {
             return _productRepository.GetProducts(new Filter()
             {
                 From = from,
                 To = to,
-                CompanyId = companyId
+                ProviderIds = new List<int>() { providerId }
             });
         }
+
+        //[HttpGet("{companyId:alpha}&{from:datetime}&{to:datetime}")]
+        //public Product[] GetProductsByCompany(string companyId, DateTime? from, DateTime? to)
+        //{
+        //    return _productRepository.GetProducts(new Filter()
+        //    {
+        //        From = from,
+        //        To = to,
+        //        //CompanyIds = new List<int>() { companyId }
+        //    });
+        //}
 
         [HttpPost]
         [Consumes("application/json", "application/xml")]
         public IActionResult AddProductsByProvider([FromBody] Provider provider)
         {
-            //IImporter importer = new ImporterMock();
-            //var result = importer.Import();
-
-            _providerRepository.SaveOrUpdate(provider);
-
+            if (!_importService.Import(provider))
+                return BadRequest();
             return Ok(provider.Id);
         }
     }

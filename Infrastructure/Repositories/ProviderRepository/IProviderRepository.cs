@@ -1,7 +1,5 @@
-﻿using Infrastructure.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Infrastructure.Dto.Filters;
+using Infrastructure.Models;
 
 namespace Infrastructure.Repositories
 {
@@ -9,7 +7,7 @@ namespace Infrastructure.Repositories
     {
         Provider GetProvider(int id);
 
-        Provider GetProviderByName(string name);
+        Provider GetProviderByFilter(Filter filter);
 
         Provider[] GetProviders();
 

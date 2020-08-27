@@ -46,8 +46,7 @@ namespace ApplicationCore.Formatters
                         {
                             Value = i.Element("name").Value,
                             Number = int.Parse(i.Element("amount").Value)
-                        }
-                        )
+                        })
                     )
                     .GroupBy(t => t.Item1).ToDictionary(x => x.Key, x => x.Select(s => s.Item2).ToArray())
                 };

@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Repositories;
+using Infrastructure.Repositories.CompanyRepository;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure
@@ -9,6 +10,7 @@ namespace Infrastructure
         {
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IProviderRepository, ProviderRepository>();
+            services.AddScoped<ICompanyRepository, CompanyRepository>();
         }
     }
 }

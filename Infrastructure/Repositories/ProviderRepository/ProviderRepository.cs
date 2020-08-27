@@ -1,9 +1,9 @@
 ﻿using Infrastructure.Db;
+using Infrastructure.Dto.Filters;
+using Infrastructure.Extensions;
 using Infrastructure.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Infrastructure.Repositories
 {
@@ -21,9 +21,10 @@ namespace Infrastructure.Repositories
             throw new NotImplementedException();
         }
 
-        public Provider GetProviderByName(string name)
+        public Provider GetProviderByFilter(Filter filter)
         {
-            return _context.Providers.FirstOrDefault(p => p.Name == name);
+            var x = _context.Providers.ApplyFilter(filter).ToSql();
+            return _context.Providers.ApplyFilter(filter).FirstOrDefault();
         }
 
         public Provider[] GetProviders()

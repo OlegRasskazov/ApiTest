@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Dto;
+using Infrastructure.Dto.Filters;
 using Infrastructure.Models;
 using System;
 using System.Collections.Generic;
