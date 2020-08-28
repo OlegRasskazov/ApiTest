@@ -1,8 +1,4 @@
 ﻿using System;
-using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.Text;
-using Infrastructure.Dto;
 
 namespace Infrastructure.Models
 {
@@ -10,9 +6,14 @@ namespace Infrastructure.Models
     public class Product : EntityBase
     {
         public string Name { get; set; }
+
         public DateTime LoadTime { get; set; }
+
         public int Amount { get; set; }
+
         public Company Company { get; set; }
+
+        public int CompanyId { get; set; }
 
     }
 }

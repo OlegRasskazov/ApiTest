@@ -13,6 +13,12 @@ namespace Infrastructure.Repositories
 
         Product[] GetProducts(Filter filter);
 
-        void SaveProducts(IList<Product> products);
+        void Add(Product[] products);
+
+        void Add(Product product);
+
+        void Update(Product product);
+
+        void Update(Product[] products);
     }
 }

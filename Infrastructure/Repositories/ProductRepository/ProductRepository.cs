@@ -28,9 +28,27 @@ namespace Infrastructure.Repositories
             return query.ToArray();
         }
 
-        public void SaveProducts(IList<Product> products)
+        public void Add(Product[] products)
         {
             _context.Products.AddRange(products);
+            _context.SaveChanges();
+        }
+
+        public void Add(Product product)
+        {
+            _context.Products.Add(product);
+            _context.SaveChanges();
+        }
+
+        public void Update(Product product)
+        {
+            _context.Products.Update(product);
+            _context.SaveChanges();
+        }
+
+        public void Update(Product[] products)
+        {
+            _context.Products.UpdateRange(products);
             _context.SaveChanges();
         }
     }

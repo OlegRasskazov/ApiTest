@@ -8,5 +8,9 @@ namespace Infrastructure.Repositories.CompanyRepository
         Company GetCompanyById(int id);
 
         Company[] GetCompanies(Filter filter);
+
+        void Add(Company[] companies);
+
+        void Add(Company company);
     }
 }

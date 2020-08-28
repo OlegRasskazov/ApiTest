@@ -83,9 +83,11 @@ namespace ProductApi.Controllers
         [Consumes("application/json", "application/xml")]
         public IActionResult AddProductsByProvider([FromBody] Provider provider)
         {
+            //_providerRepository.SaveOrUpdate(provider);
+
             if (!_importService.Import(provider))
                 return BadRequest();
-            return Ok(provider.Id);
+            return Ok();
         }
     }
 }

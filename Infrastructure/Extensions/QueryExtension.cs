@@ -57,16 +57,27 @@ namespace Infrastructure.Extensions
 
         public static IQueryable<Provider> ApplyFilter(this IQueryable<Provider> query, Filter filter)
         {
-            //if (filter.ProviderNames != null && filter.ProviderNames.Any())
-            //    query = query.Where(p => filter.ProviderNames.Contains(p.Name));
-            //if (filter.CompanyGuids != null && filter.CompanyGuids.Any())
-            //{
-            //    query = query.Where(p => filter.CompanyGuids.Contains(p.Companies.Guid)));
-            //    //if (filter.ProductNames != null && filter.ProductNames.Any())
-            //    //    query = temp.ThenInclude(c => c.Products.Where(p => filter.ProductNames.Contains(p.Name))).AsQueryable();
-            //    //else
-            //        query = temp.AsQueryable();
-            //}
+            if (filter.ProviderNames != null && filter.ProviderNames.Any())
+                query = query.Where(p => filter.ProviderNames.Contains(p.Name));
+            if (filter.CompanyGuids != null && filter.CompanyGuids.Any())
+            {
+                //query = query.Join()
+
+
+                //query = query.Select(p => 
+                //{
+                //    Id = p.Id,
+                //    Companies = p.Companies.Where(c => filter.CompanyGuids.Contains(c.Guid)),
+                //    Name = p.Name
+                //});
+
+                //query = query.Include(p=>p.Companies).Where(c => filter.CompanyGuids.Contains(c.Guid)).Select(c => new Company() { Id = c.Id}));
+
+
+                //query = query.Where(p => p.Companies.Any(c => filter.CompanyGuids.Contains(c.Guid)));
+                //if (filter.ProductNames != null && filter.ProductNames.Any())
+                //    query = query.Where(p => p.Companies.SelectMany(c => c.Products).Any(p => filter.ProductNames.Contains(p.Name)));
+            }
             return query;
         }
 

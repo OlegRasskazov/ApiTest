@@ -23,7 +23,7 @@ namespace Infrastructure.Repositories
 
         public Provider GetProviderByFilter(Filter filter)
         {
-            var x = _context.Providers.ApplyFilter(filter).ToSql();
+            //var x = _context.Providers.ApplyFilter(filter).ToSql();
             return _context.Providers.ApplyFilter(filter).FirstOrDefault();
         }
 
