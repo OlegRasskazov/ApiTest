@@ -22,6 +22,7 @@ namespace ApplicationCore.AppServices
             _companyRepository = companyRepository;
             _productRepository = productRepository;
         }
+
         public bool Import(Provider provider)
         {
             if (provider == null)

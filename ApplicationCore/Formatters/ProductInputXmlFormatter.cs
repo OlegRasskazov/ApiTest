@@ -21,6 +21,7 @@ namespace ApplicationCore.Formatters
             SupportedEncodings.Add(Encoding.UTF8);
             SupportedEncodings.Add(Encoding.Unicode);
         }
+
         public override async Task<InputFormatterResult> ReadRequestBodyAsync(InputFormatterContext context, Encoding encoding)
         {
             var httpContext = context.HttpContext;

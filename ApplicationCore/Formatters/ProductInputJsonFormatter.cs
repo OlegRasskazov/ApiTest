@@ -1,5 +1,4 @@
-﻿using Infrastructure.Models;
-using Infrastructure.Models.BindingModels;
+﻿using Infrastructure.Models.BindingModels;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
@@ -19,6 +18,7 @@ namespace ApplicationCore.Formatters
             SupportedEncodings.Add(Encoding.UTF8);
             SupportedEncodings.Add(Encoding.Unicode);
         }
+
         public override async Task<InputFormatterResult> ReadRequestBodyAsync(InputFormatterContext context, Encoding encoding)
         {
             var httpContext = context.HttpContext;
