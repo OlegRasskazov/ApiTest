@@ -17,7 +17,7 @@
 
 ProviderA:
 
-{
+```{
   "MessageId": "07fa8a54-88e6-492c-8db8-2c0ad42ac787",
   "LoadTime": "11/22/2009 12:00:00",
   "Companies": {
@@ -39,10 +39,10 @@ ProviderA:
     ]
   }
 }
-
+```
 ProviderB:
 
-<?xml version="1.0" encoding="utf-8"?>
+```<?xml version="1.0" encoding="utf-8"?>
 <LoadItems>
   <Item Company="583f668b-db80-4894-8f7b-8da1525f0397">
     <Name>Product_new</Name>
@@ -56,4 +56,4 @@ ProviderB:
     <Name>Product_1_New_Company</Name>
     <Amount>2</Amount>
   </Item>
-</LoadItems>
+</LoadItems>```
