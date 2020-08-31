@@ -1,9 +1,5 @@
-﻿using Infrastructure.Dto;
-using Infrastructure.Dto.Filters;
+﻿using Infrastructure.Dto.Filters;
 using Infrastructure.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Infrastructure.Repositories
 {
@@ -20,5 +16,7 @@ namespace Infrastructure.Repositories
         void Update(Product product);
 
         void Update(Product[] products);
+
+        void Delete(Product product);
     }
 }

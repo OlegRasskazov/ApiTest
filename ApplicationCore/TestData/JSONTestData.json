@@ -1,0 +1,22 @@
+{
+  "MessageId": "07fa8a54-88e6-492c-8db8-2c0ad42ac787",
+  "LoadTime": "11/22/2009 12:00:00",
+  "Companies": {
+    "eeda82d6-3ac1-46d7-908d-35a9016d5c8e": [
+      {
+        "Value": "Product_new",
+        "Number": 2
+      },
+      {
+        "Value": "Product_1",
+        "Number": 2
+      }
+    ],
+    "3235de33-cf8e-412b-9178-0238ac3879f2": [
+      {
+        "Value": "Product_1_New_Company",
+        "Number": 2
+      }
+    ]
+  }
+}

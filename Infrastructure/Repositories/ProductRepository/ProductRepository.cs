@@ -2,7 +2,6 @@
 using Infrastructure.Dto.Filters;
 using Infrastructure.Extensions;
 using Infrastructure.Models;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Infrastructure.Repositories
@@ -49,6 +48,12 @@ namespace Infrastructure.Repositories
         public void Update(Product[] products)
         {
             _context.Products.UpdateRange(products);
+            _context.SaveChanges();
+        }
+
+        public void Delete(Product product)
+        {
+            _context.Remove(product);
             _context.SaveChanges();
         }
     }

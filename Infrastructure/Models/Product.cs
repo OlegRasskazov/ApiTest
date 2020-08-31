@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Infrastructure.Dto;
+using System;
+using System.Text.Json.Serialization;
 
 namespace Infrastructure.Models
 {

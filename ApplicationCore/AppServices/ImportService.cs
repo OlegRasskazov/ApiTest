@@ -27,6 +27,16 @@ namespace ApplicationCore.AppServices
             if (provider == null)
                 return false;
 
+            var existingProvider = _providerRepository.GetProviderByFilter(new Filter()
+            {
+                ProviderNames = new List<string>() { provider.Name }
+            });
+
+            foreach (var company in provider.Companies)
+            {
+                company.ProviderId = existingProvider.Id;
+            }
+
             var existingCompanies = _companyRepository.GetCompanies(new Filter()
             {
                 ProviderNames = new List<string>() { provider.Name },
@@ -34,28 +44,34 @@ namespace ApplicationCore.AppServices
             });
 
             var existingCompaniesGuids = existingCompanies.Select(c => c.Guid);
-            var newCompanies = provider.Companies.Where(c => !existingCompaniesGuids.Contains(c.Guid)).ToArray();
+            var newCompanies = provider.Companies.Where(c => !existingCompaniesGuids.Contains(c.Guid.ToLower())).ToArray();
 
             if (newCompanies.Any())
                 _companyRepository.Add(newCompanies);
 
-            foreach (var company in provider.Companies)
+            foreach (var company in existingCompanies)
             {
+                var providerCompany = provider.Companies.Single(c => c.Guid == company.Guid);
+                foreach (var product in providerCompany.Products)
+                {
+                    product.CompanyId = company.Id;
+                }
+
                 var existingProducts = _productRepository.GetProducts(new Filter()
                 {
-                    ProductNames = new List<string>(company.Products.Select(p => p.Name)),
-                    CompanyGuids = new List<string>() { company.Guid }
+                    ProductNames = new List<string>(providerCompany.Products.Select(p => p.Name)),
+                    CompanyGuids = new List<string>() { providerCompany.Guid }
                 });
 
                 var existingProductNames = existingProducts.Select(p => p.Name);
-                var newProducts = company.Products.Where(p => !existingProductNames.Contains(p.Name)).ToArray();
+                var newProducts = providerCompany.Products.Where(p => !existingProductNames.Contains(p.Name.ToLower())).ToArray();
 
                 if (newProducts.Any())
                     _productRepository.Add(newProducts);
 
                 foreach (var product in existingProducts)
                 {
-                    product.Amount += company.Products.Single(p => p.Name == product.Name).Amount;
+                    product.Amount += providerCompany.Products.Single(p => p.Name.ToLower() == product.Name.ToLower()).Amount;
                 }
 
                 _productRepository.Update(existingProducts);

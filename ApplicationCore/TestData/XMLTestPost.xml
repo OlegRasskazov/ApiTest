@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LoadItems>
+  <Item Company="583f668b-db80-4894-8f7b-8da1525f0397">
+    <Name>Product_new</Name>
+    <Amount>2</Amount>
+  </Item>
+  <Item Company="583f668b-db80-4894-8f7b-8da1525f0397">
+    <Name>Product_1</Name>
+    <Amount>2</Amount>
+  </Item>
+  <Item Company="644d8d9c-4231-44af-b1a5-135c10b1d6b8">
+    <Name>Product_1_New_Company</Name>
+    <Amount>2</Amount>
+  </Item>
+</LoadItems>

@@ -3,7 +3,6 @@ using Infrastructure.Dto.Filters;
 using Infrastructure.Models;
 using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
@@ -29,32 +28,35 @@ namespace ProductApi.Controllers
 
         //задать тип принимаемого значения
         [HttpGet("{id:int}")]
-        public IActionResult GetProduct(int id)
+        public IActionResult Get(int id)
         {
             try
             {
                 var result = _productRepository.GetProduct(id);
                 return Ok(result);
             }
-            catch
+            catch (Exception e)
             {
                 //TODO: добавть логирование
-                return BadRequest();
+                return BadRequest(e.Message);
             }
         }
 
-        [HttpGet("{name:alpha}")]
-        public IActionResult GetProduct(string name)
+        [HttpGet("{name}")]
+        public IActionResult Get(string name)
         {
             try
             {
-                var result = _productRepository.GetProduct(1);
+                var result = _productRepository.GetProducts(new Filter()
+                {
+                    ProductNames = new List<string>() { name }
+                });
                 return Ok(result);
             }
-            catch
+            catch (Exception e)
             {
                 //TODO: добавть логирование
-                return BadRequest();
+                return BadRequest(e.Message);
             }
         }
 
@@ -71,9 +73,9 @@ namespace ProductApi.Controllers
                 });
                 return Ok(result);
             }
-            catch
+            catch (Exception e)
             {
-                return BadRequest();
+                return BadRequest(e.Message);
             }
         }
 
@@ -91,9 +93,9 @@ namespace ProductApi.Controllers
 
                 return Ok(result);
             }
-            catch
+            catch (Exception e)
             {
-                return BadRequest();
+                return BadRequest(e.Message);
             }
 
         }
@@ -102,9 +104,39 @@ namespace ProductApi.Controllers
         [Consumes("application/json", "application/xml")]
         public IActionResult AddProductsByProvider([FromBody] Provider provider)
         {
-            if (!_importService.Import(provider))
-                return BadRequest();
-            return Ok();
+            try
+            {
+                if (!_importService.Import(provider))
+                    return BadRequest();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut("{productId:int}")]
+        public IActionResult WithdrawProducts(int productId, int amount)
+        {
+            try
+            {
+                var product = _productRepository.GetProduct(productId);
+                if (product.Amount < amount)
+                    return BadRequest($"Insufficient quantity of product:{productId}");
+                product.Amount -= amount;
+                if (product.Amount == 0)
+                {
+                    _productRepository.Delete(product);
+                    return Ok(product);
+                }
+                _productRepository.Update(product);
+                return Ok(product);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
     }
 }

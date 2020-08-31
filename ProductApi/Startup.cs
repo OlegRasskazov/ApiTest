@@ -30,14 +30,12 @@ namespace ProductApi
             {
                 options.InputFormatters.Insert(0, new ProductInputJsonFormatter());
                 options.InputFormatters.Insert(1, new ProductInputXmlFormatter());
-            });
-
-
-                //.AddNewtonsoftJson(options =>
-                //{
-                //    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
-                //    options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-                //}).AddXmlSerializerFormatters();
+            })
+                .AddNewtonsoftJson(options =>
+                {
+                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                    options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+                });
             services.AddRepositories();
 
             services.AddAppServices();
