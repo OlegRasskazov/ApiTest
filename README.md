@@ -17,7 +17,8 @@
 
 ProviderA:
 
-```{
+```
+{
   "MessageId": "07fa8a54-88e6-492c-8db8-2c0ad42ac787",
   "LoadTime": "11/22/2009 12:00:00",
   "Companies": {
