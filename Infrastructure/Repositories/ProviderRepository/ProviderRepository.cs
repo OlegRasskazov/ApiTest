@@ -2,6 +2,7 @@
 using Infrastructure.Dto.Filters;
 using Infrastructure.Extensions;
 using Infrastructure.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 
@@ -18,7 +19,7 @@ namespace Infrastructure.Repositories
 
         public Provider GetProvider(int id)
         {
-            throw new NotImplementedException();
+            return _context.Providers.Where(p => p.Id == id).Include(p => p.Companies).ThenInclude(c=>c.Products).FirstOrDefault();
         }
 
         public Provider GetProviderByFilter(Filter filter)

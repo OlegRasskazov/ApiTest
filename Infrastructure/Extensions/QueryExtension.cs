@@ -34,7 +34,9 @@ namespace Infrastructure.Extensions
             if (filter.CompanyGuids != null && filter.CompanyGuids.Any())
                 query = query.Where(p => filter.CompanyGuids.Contains(p.Company.Guid));
             if (filter.ProviderIds != null && filter.ProviderIds.Any())
-                query = query.Where(p => filter.ProviderIds.Contains(p.Company.Provider.Id));
+                query = query.Where(p => filter.ProviderIds.Contains(p.Company.ProviderId));
+            if (filter.CompanyIds != null && filter.CompanyIds.Any())
+                query = query.Where(p => filter.CompanyIds.Contains(p.CompanyId));
             if (filter.From.HasValue)
                 query = query.Where(p => p.LoadTime >= filter.From);
             if (filter.To.HasValue)

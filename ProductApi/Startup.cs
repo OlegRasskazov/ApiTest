@@ -1,5 +1,6 @@
 using ApplicationCore;
 using ApplicationCore.Formatters;
+using ApplicationCore.Seed;
 using Infrastructure;
 using Infrastructure.Db;
 using Microsoft.AspNetCore.Builder;
@@ -71,6 +72,8 @@ namespace ProductApi
             {
                 options.SwaggerEndpoint("/swagger/v1/swagger.json", "ProductApi");
             });
+
+            Seeder.Seedit(app.ApplicationServices);
         }
     }
 }

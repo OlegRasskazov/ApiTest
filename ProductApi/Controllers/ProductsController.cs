@@ -3,6 +3,7 @@ using Infrastructure.Dto.Filters;
 using Infrastructure.Models;
 using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
@@ -35,7 +36,7 @@ namespace ProductApi.Controllers
                 var result = _productRepository.GetProduct(id);
                 return Ok(result);
             }
-            catch (Exception ex)
+            catch
             {
                 //TODO: добавть логирование
                 return BadRequest();
@@ -50,41 +51,57 @@ namespace ProductApi.Controllers
                 var result = _productRepository.GetProduct(1);
                 return Ok(result);
             }
-            catch (Exception ex)
+            catch
             {
                 //TODO: добавть логирование
                 return BadRequest();
             }
         }
 
-        [HttpGet("{providerId:int}&{from:datetime}&{to:datetime}")]
-        public Product[] GetProductsByProvider(int providerId, DateTime? from, DateTime? to)
+        [HttpGet("ByProvider/{providerId:int}")]
+        public IActionResult GetProductsByProvider(int providerId, DateTime? from, DateTime? to)
         {
-            return _productRepository.GetProducts(new Filter()
+            try
             {
-                From = from,
-                To = to,
-                ProviderIds = new List<int>() { providerId }
-            });
+                var result = _productRepository.GetProducts(new Filter()
+                {
+                    From = from,
+                    To = to,
+                    ProviderIds = new List<int>() { providerId }
+                });
+                return Ok(result);
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
 
-        //[HttpGet("{companyId:alpha}&{from:datetime}&{to:datetime}")]
-        //public Product[] GetProductsByCompany(string companyId, DateTime? from, DateTime? to)
-        //{
-        //    return _productRepository.GetProducts(new Filter()
-        //    {
-        //        From = from,
-        //        To = to,
-        //        //CompanyIds = new List<int>() { companyId }
-        //    });
-        //}
+        [HttpGet("ByCompany/{companyId:int}")]
+        public IActionResult GetProductsByCompany(int companyId, DateTime? from, DateTime? to)
+        {
+            try
+            {
+                var result = _productRepository.GetProducts(new Filter()
+                {
+                    From = from,
+                    To = to,
+                    CompanyIds = new List<int>() { companyId }
+                });
+
+                return Ok(result);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+
+        }
 
         [HttpPost]
         [Consumes("application/json", "application/xml")]
         public IActionResult AddProductsByProvider([FromBody] Provider provider)
         {
-            //_providerRepository.SaveOrUpdate(provider);
-
             if (!_importService.Import(provider))
                 return BadRequest();
             return Ok();

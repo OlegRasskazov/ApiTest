@@ -1,10 +1,9 @@
-﻿using Infrastructure.Models;
-using Infrastructure.Dto.Filters;
+﻿using Infrastructure.Dto.Filters;
+using Infrastructure.Models;
 using Infrastructure.Repositories;
 using Infrastructure.Repositories.CompanyRepository;
-using System.Linq;
 using System.Collections.Generic;
-using System.Reflection;
+using System.Linq;
 
 namespace ApplicationCore.AppServices
 {
